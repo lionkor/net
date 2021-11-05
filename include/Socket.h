@@ -55,6 +55,8 @@ public:
     
     // returns the underlying native socket
     int native_socket() const { return m_sock.fd; }
+    void set_read_timeout(size_t ms);
+    void set_write_timeout(size_t ms);
 
     // only set if bind() or connect() was called on the socket, or if the socket was returned from accept()
     std::string address() const { return m_address; }
@@ -69,7 +71,7 @@ public:
     [[nodiscard]] int64_t write(const ContainerT& container);
     template<detail::DataSizeMutableAccessible ContainerT>
     [[nodiscard]] int64_t read(ContainerT& container);
-
+    
 protected:
     detail::OSSocket m_sock {};
 

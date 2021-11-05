@@ -27,13 +27,13 @@ Socket::Socket(detail::SockType type, detail::SockProtocol protocol) {
     }
 #ifdef LK_NET_WINSOCK
     const char optval = 0;
-    int ret = setsockopt(m_sock.fd, SOL_SOCKET, SO_DONTLINGER, &optval, sizeof(optval));
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_DONTLINGER, &optval, sizeof(optval));
 #else // POSIX
     int optval = true;
     int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<void*>(&optval), sizeof(optval));
 #endif
     if (ret < 0) {
-        throw std::runtime_error("setsockopt: " + get_api_error());
+        throw std::runtime_error("setsockopt reuse port: " + get_api_error());
     }
 }
 
@@ -91,6 +91,34 @@ Socket Socket::accept() {
         sock.m_port = ntohs(addr.sin6_port);
     }
     return sock;
+}
+
+void Socket::set_read_timeout(size_t ms) {
+#ifdef LK_NET_WINSOCK
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, &ms, sizeof(ms));
+#else // POSIX
+    struct timeval optval;
+    optval.tv_sec = (int)(ms / 1000);
+    optval.tv_usec = (ms % 1000) * 1000;
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<void*>(&optval), sizeof(optval));
+#endif
+    if (ret < 0) {
+        throw std::runtime_error("setsockopt recv timeout: " + get_api_error());
+    }
+}
+
+void Socket::set_write_timeout(size_t ms) {
+#ifdef LK_NET_WINSOCK
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_SNDTIMEO, &ms, sizeof(ms));
+#else // POSIX
+    struct timeval optval;
+    optval.tv_sec = (int)(ms / 1000);
+    optval.tv_usec = (ms % 1000) * 1000;
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<void*>(&optval), sizeof(optval));
+#endif
+    if (ret < 0) {
+        throw std::runtime_error("setsockopt recv timeout: " + get_api_error());
+    }
 }
 
 Socket::Socket() { }

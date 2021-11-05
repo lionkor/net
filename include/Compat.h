@@ -18,6 +18,7 @@
 #include <cstring>
 #include <string>
 
+namespace lk {
 static inline std::string get_api_error() {
 #ifdef LK_NET_WINSOCK
     // This will provide us with the error code and an error message, all in one.
@@ -41,6 +42,7 @@ static inline std::string get_api_error() {
         return std::to_string(WSAGetLastError());
     }
 #else // posix
-    return std::strerror(errno);
+    return std::to_string(errno) + " - " + std::strerror(errno);
 #endif
+}
 }
