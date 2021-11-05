@@ -1,5 +1,5 @@
 # net
-A light and simple socket wrapper.
+A light and simple cross-platform socket wrapper.
 
 Here's a minimal TCP server example, which says "Hello, World!", then prints the answer, and exits.
 It also demonstrates binding to a specific IPv6 address (:: in this case).
