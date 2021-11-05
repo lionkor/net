@@ -77,7 +77,7 @@ private:
 
 template<detail::DataSizeMutableAccessible ContainerT>
 int64_t Socket::read(ContainerT& container) {
-    return read(container.data(), container.size() * sizeof(ContainerT::value_type));
+    return read(container.data(), container.size() * sizeof(typename ContainerT::value_type));
 }
 
 template<typename T>
@@ -92,7 +92,7 @@ int64_t Socket::read(T* buf, size_t count) {
 
 template<detail::DataSizeAccessible ContainerT>
 int64_t Socket::write(const ContainerT& container) {
-    return write(container.data(), container.size() * sizeof(ContainerT::value_type));
+    return write(container.data(), container.size() * sizeof(typename ContainerT::value_type));
 }
 
 class TCPSocket : public Socket {
