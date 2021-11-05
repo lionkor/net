@@ -7,8 +7,12 @@ int main() {
     socket.listen(10);
     auto client = socket.accept();
     std::string msg = "Hello, World!";
-    (void)client.write(msg);
+    auto n = client.write(msg);
+    if (size_t(n) != msg.size()) {
+        // handle
+    }
     std::string buf(64, ' ');
-    (void)client.read(buf);
+    n = client.read(buf);
+    buf[n] = '\0';
     std::cout << "client said: " << buf << "\n";
 }

@@ -51,6 +51,9 @@ public:
     void connect(const std::string& addr, uint16_t port);
     void listen(int backlog);
     [[nodiscard]] Socket accept();
+    
+    // returns the underlying native socket
+    int native_socket() const { return m_sock.fd; }
 
     // only set if bind() or connect() was called on the socket, or if the socket was returned from accept()
     std::string address() const { return m_address; }
