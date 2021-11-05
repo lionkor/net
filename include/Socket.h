@@ -22,7 +22,7 @@ namespace detail {
     };
 
     std::string ensure_ipv6_format(const std::string& any_addr);
-    struct sockaddr_in6 create_sockaddr(const std::string& ipv6, uint16_t port);
+    struct ::sockaddr_in6 create_sockaddr(const std::string& ipv6, uint16_t port);
 
     template<typename T>
     concept DataSizeAccessible = requires(T a) {
