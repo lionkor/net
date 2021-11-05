@@ -41,6 +41,7 @@ namespace detail {
 class Socket {
 public:
     Socket(detail::SockType type, detail::SockProtocol protocol);
+    Socket(); // only use if you're confident about the implications
     Socket(const Socket&) = delete;
     Socket& operator=(const Socket&) = delete;
     Socket(Socket&&) = default;
@@ -70,7 +71,6 @@ public:
     [[nodiscard]] int64_t read(ContainerT& container);
 
 protected:
-    Socket();
     detail::OSSocket m_sock {};
 
 private:
