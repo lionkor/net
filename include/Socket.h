@@ -82,12 +82,20 @@ int64_t Socket::read(ContainerT& container) {
 
 template<typename T>
 int64_t Socket::write(const T* buf, size_t count) {
+#ifdef LK_NET_WINSOCK
+    return int64_t(::send(m_sock.fd, reinterpret_cast<const char*>(buf), count * sizeof(T), 0));
+#else // POSIX
     return int64_t(::send(m_sock.fd, reinterpret_cast<const void*>(buf), count * sizeof(T), 0));
+#endif
 }
 
 template<typename T>
 int64_t Socket::read(T* buf, size_t count) {
+#ifdef LK_NET_WINSOCK
+    return int64_t(::recv(m_sock.fd, reinterpret_cast<char*>(buf), count * sizeof(T), 0));
+#else // POSIX
     return int64_t(::recv(m_sock.fd, reinterpret_cast<void*>(buf), count * sizeof(T), 0));
+#endif
 }
 
 template<detail::DataSizeAccessible ContainerT>

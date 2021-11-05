@@ -16,7 +16,6 @@ static void ensure_subsystems_initialized() {
     if (WSAStartup(514, &data)) {
         throw std::runtime_error("WSAStartup: " + get_api_error());
     }
-    on_exit(WSACleanup);
 #endif // LK_NET_WINSOCK
 }
 
