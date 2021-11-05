@@ -1,0 +1,37 @@
+name: CMake Windows Build
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            submodules: 'recursive'
+      
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build-windows
+
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{github.workspace}}/build-windows
+        env:
+          beammp_sentry_url: ${{ secrets.BEAMMP_SECRET_SENTRY_URL }}
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build-windows
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{github.workspace}}/build-windows/Release/lknet-example.exe
+
+
