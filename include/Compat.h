@@ -3,7 +3,8 @@
 #if defined(WIN32) || defined(__MINGW32__) || defined(_MSC_VER)
 #define LK_NET_WINSOCK
 #include <conio.h>
-#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #else // __APPLE__, __linux__
 #define LK_NET_POSIX
 #include <arpa/inet.h>
