@@ -32,6 +32,7 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: lknet-example.exe
           path: ${{github.workspace}}/build-windows/Release/lknet-example.exe
 
 
