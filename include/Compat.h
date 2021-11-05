@@ -4,7 +4,6 @@
 #define LK_NET_WINSOCK
 #include <conio.h>
 #include <windows.h>
-#include <ws2tcpip.h>
 #else // __APPLE__, __linux__
 #define LK_NET_POSIX
 #include <arpa/inet.h>
