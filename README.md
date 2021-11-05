@@ -1,4 +1,7 @@
 # net
+[![CMake Linux Build](https://github.com/lionkor/net/actions/workflows/cmake-linux.yml/badge.svg)](https://github.com/lionkor/net/actions/workflows/cmake-linux.yml)
+[![CMake Windows Build](https://github.com/lionkor/net/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/lionkor/net/actions/workflows/cmake-windows.yml)
+
 A light and simple cross-platform socket wrapper.
 
 Here's a minimal TCP server example, which says "Hello, World!", then prints the answer, and exits.
