@@ -95,12 +95,12 @@ Socket Socket::accept() {
 
 void Socket::set_read_timeout(size_t ms) {
 #ifdef LK_NET_WINSOCK
-    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, &ms, sizeof(ms));
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&ms), sizeof(ms));
 #else // POSIX
     struct timeval optval;
     optval.tv_sec = (int)(ms / 1000);
     optval.tv_usec = (ms % 1000) * 1000;
-    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<void*>(&optval), sizeof(optval));
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const void*>(&optval), sizeof(optval));
 #endif
     if (ret < 0) {
         throw std::runtime_error("setsockopt recv timeout: " + get_api_error());
