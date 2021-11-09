@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
+using namespace lk;
 using namespace lk::net;
 
 #ifdef LK_NET_WINSOCK
@@ -109,7 +110,7 @@ void Socket::set_read_timeout(size_t ms) {
 
 void Socket::set_write_timeout(size_t ms) {
 #ifdef LK_NET_WINSOCK
-    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_SNDTIMEO, &ms, sizeof(ms));
+    int ret = ::setsockopt(m_sock.fd, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<const char*>(&ms), sizeof(ms));
 #else // POSIX
     struct timeval optval;
     optval.tv_sec = (int)(ms / 1000);

@@ -10,10 +10,11 @@ if (WIN32)
     target_link_libraries(lknet ws2_32)
 endif()
 
-add_executable(lknet-example
-    src/main.cpp
-)
-
-target_link_libraries(lknet-example lknet)
+if(LK_NET_BUILD_EXAMPLES)
+    add_executable(lknet-example
+        src/main.cpp
+    )
+    target_link_libraries(lknet-example lknet)
+endif()
 
 include_directories(include)
