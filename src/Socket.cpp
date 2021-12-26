@@ -128,6 +128,13 @@ TCPSocket::TCPSocket()
     : Socket(detail::SockType::STREAM, detail::SockProtocol::TCP) {
 }
 
+std::array<std::byte, sizeof(uint32_t)> TCPSocket::make_size_header(uint32_t n) {
+    uint32_t ordered = htonl(uint32_t(n));
+    std::array<std::byte, sizeof(uint32_t)> array;
+    std::memcpy(array.data(), &ordered, sizeof(ordered));
+    return array;
+}
+
 UDPSocket::UDPSocket()
     : Socket(detail::SockType::DGRAM, detail::SockProtocol::UDP) {
 }

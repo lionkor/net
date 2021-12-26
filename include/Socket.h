@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <concepts>
 #include <functional>
 #include <string>
@@ -10,6 +11,17 @@ namespace lk::net {
 
 namespace detail {
     struct OSSocket final {
+        OSSocket(int fd = -1)
+            : fd(fd) { }
+        OSSocket(OSSocket&& other)
+            : fd(other.fd) {
+            other.fd = -1;
+        }
+        OSSocket& operator=(OSSocket&& other) {
+            fd = other.fd;
+            other.fd = -1;
+            return *this;
+        }
         int fd;
     };
     enum class SockType : int {
@@ -52,7 +64,7 @@ public:
     void connect(const std::string& addr, uint16_t port);
     void listen(int backlog);
     [[nodiscard]] Socket accept();
-    
+
     // returns the underlying native socket
     int native_socket() const { return m_sock.fd; }
     void set_read_timeout(size_t ms);
@@ -71,7 +83,7 @@ public:
     [[nodiscard]] int64_t write(const ContainerT& container);
     template<detail::DataSizeMutableAccessible ContainerT>
     [[nodiscard]] int64_t read(ContainerT& container);
-    
+
 protected:
     detail::OSSocket m_sock {};
 
