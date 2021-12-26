@@ -123,6 +123,7 @@ int64_t Socket::write(const ContainerT& container) {
 class TCPSocket : public Socket {
 public:
     TCPSocket();
+    std::array<std::byte, sizeof(uint32_t)> make_size_header(uint32_t n);
 };
 
 class UDPSocket : public Socket {
