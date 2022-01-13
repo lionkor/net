@@ -10,7 +10,9 @@ if (WIN32)
     target_link_libraries(lknet ws2_32)
 endif()
 
-if(LK_NET_BUILD_EXAMPLES)
+option(LK_NET_BUILD_EXAMPLES "Build example(s)" OFF)
+
+if(LK_NET_BUILD_EXAMPLES OR BUILD_EXAMPLES)
     add_executable(lknet-example
         src/main.cpp
     )

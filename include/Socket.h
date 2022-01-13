@@ -22,6 +22,7 @@ namespace detail {
             other.fd = -1;
             return *this;
         }
+        OSSocket(const OSSocket&) = delete;
         int fd;
     };
     enum class SockType : int {
@@ -109,9 +110,9 @@ int64_t Socket::write(const T* buf, size_t count) {
 template<typename T>
 int64_t Socket::read(T* buf, size_t count) {
 #ifdef LK_NET_WINSOCK
-    return int64_t(::recv(m_sock.fd, reinterpret_cast<char*>(buf), count * sizeof(T), 0));
+    return int64_t(::recv(m_sock.fd, reinterpret_cast<char*>(buf), count * sizeof(T), MSG_WAITALL));
 #else // POSIX
-    return int64_t(::recv(m_sock.fd, reinterpret_cast<void*>(buf), count * sizeof(T), 0));
+    return int64_t(::recv(m_sock.fd, reinterpret_cast<void*>(buf), count * sizeof(T), MSG_WAITALL));
 #endif
 }
 
