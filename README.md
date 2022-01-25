@@ -8,7 +8,7 @@ Here's a minimal TCP server example, which says "Hello, World!", then prints the
 It also demonstrates binding to a specific IPv6 address (:: in this case).
 
 ```cpp
-#include "Socket.h"
+#include <lk/net/Socket.h> // lk::net library
 #include <iostream>
 
 int main() {
